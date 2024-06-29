@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Bootstrap JS and Popper.js (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .control-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .control-card:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .latest-log {
+            background-color: #e3f2fd;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+
+<body class="container mt-5">
+
+    <h1 class="mb-5 text-center">Building Management System</h1>
+    
+    <div class="row">
+        <!-- Building control section - 8 columns wide -->
+        <div class="col-lg-8 mb-4">
+            <div class="row">
+
+                <!-- Light Control Card -->
+                <div class="col-md-6 mb-4">
+                    <div class="control-card">
+                        <form method="POST" class="text-center">
+                            <img id="light-image" src="{{ url_for('static', filename='light_on.svg') if light_on else url_for('static', filename='light_off.svg') }}" class="img-fluid mb-2">
+                            <p class="mb-2">{{ "Lights are glowing bright" if light_on else "Lights are turned off" }}</p>
+                            <button class="btn btn-primary btn-block" name="light" value="{{ " 1.0 " if light_on else "5.0 " }}">Toggle Light</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Door Lock Control Card -->
+                <div class="col-md-6 mb-4">
+                    <div class="control-card">
+                        <form method="POST" class="text-center">
+                            <img id="locking-image" src="{{ url_for('static', filename='locking_on_new.svg') if locking_on else url_for('static', filename='locking_off_new.svg') }}" class="img-fluid mb-2">
+                            <p class="mb-2">{{ "Doors are secured" if locking_on else "Doors are open" }}</p>
+                            <button class="btn btn-primary btn-block" name="locking" value="{{ " 1.0 " if locking_on else "5.0 " }}">Toggle Lock</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Fire Alarm Control Card -->
+                <div class="col-md-6 mb-4">
+                    <div class="control-card">
+                        <form method="POST" class="text-center">
+                            <img id="fire-image" src="{{ url_for('static', filename='fire_on_new.svg') if fire_on else url_for('static', filename='fire_off_new.svg') }}" class="img-fluid mb-2">
+                            <p class="mb-2">{{ "Fire alarm is ringing" if fire_on else "No fire alarms" }}</p>
+                            <button class="btn btn-primary btn-block" name="fire" value="{{ " 1.0 " if fire_on else "5.0 " }}">Toggle Fire Alarm</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% if current_user.role == 'admin' %}
+                <!-- Camera Feed Control Card -->
+                <div class="col-md-6 mb-4">
+                    <div class="control-card">
+                        <form method="POST" class="text-center">
+                            <img id="camera-image" src="{{ url_for('static', filename='camera_on.svg') if camera_on else url_for('static', filename='camera_off.svg') }}" class="img-fluid mb-2">
+                            <p class="mb-2">{{ "Camera is recording" if camera_on else "Camera is off" }}</p>
+                            <button class="btn btn-primary btn-block" name="camera" value="{{ " 1.0 " if camera_on else "5.0 " }}">Toggle Camera</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <img id="building" src="{{ url_for('static', filename='light_on.jpg') if light_on else url_for('static', filename='light_off.jpg') }}" class="img-fluid">
+        </div>
+
+        <!-- Logging section - 4 columns wide -->
+        
+        <div class="col-lg-4">
+                    <form method="POST" action="/logout">
+            <input type="submit" value="Logout" class="btn btn-warning">
+        </form>
+        <br />
+            <h2 class="mb-3">Recent Logs</h2>
+            <div class="p-3" style="border: 1px solid #ddd; height: 400px; overflow-y: scroll;">
+                {% for log in logs %}
+                <p {% if loop.first %}class="latest-log" {% endif %}>{{ log }}</p>
+                {% endfor %}
+            </div>
+        </div>
+</body>
+
+</html>

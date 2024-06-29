@@ -1,0 +1,3 @@
+voor vpn tunnel wg0.conf op een machine zetten.
+Door moet natuurlijk wireguard-tools geinstalleerd zijn
+daarna 'wg-quick up wg0'

@@ -168,7 +168,4 @@ Contributions are welcome! Please fork this repository and submit pull requests 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
----
-
-Please ensure to customize the project name, repository URL, and any other specific details relevant to your project. If there are any additional instructions or prerequisites for the scripts, make sure to include those as well.
+her specific details relevant to your project. If there are any additional instructions or prerequisites for the scripts, make sure to include those as well.
